@@ -4,4 +4,6 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'	=> 'AxKit::XSP::Exception',
     'VERSION_FROM' => 'Exception.pm', # finds $VERSION
+    'PREREQ_PM' => { AxKit => 1.4,
+                   },
 );

@@ -1,17 +1,16 @@
-# $Id: Exception.pm,v 1.2 2001/02/16 01:37:29 matt Exp $
+# $Id: Exception.pm,v 1.4 2001/06/04 10:07:53 matt Exp $
 
 package AxKit::XSP::Exception;
 
 use strict;
-use Apache::AxKit::Language::XSP 
-        qw(start_expr append_to_script end_expr manage_text);
+use Apache::AxKit::Language::XSP;
 
 use vars qw/@ISA $NS $VERSION $ForwardXSPExpr/;
 
 @ISA = ('Apache::AxKit::Language::XSP');
 $NS = 'http://axkit.org/NS/xsp/exception/v1';
 
-$VERSION = "1.0";
+$VERSION = "1.4";
 
 sub parse_char {
     my ($e, $text) = @_;
@@ -26,11 +25,11 @@ sub parse_start {
         return 'eval {'
     }
     elsif ($tag eq 'catch') {
-        manage_text($e, 0);
+        $e->manage_text(0);
         return '}; if ($@) { my $exception = $@;'
     }
     elsif ($tag eq 'message') {
-        start_expr($e, $tag);
+        $e->start_expr($tag);
 	return '';
     }
     else {
@@ -48,8 +47,8 @@ sub parse_end {
         return '';
     }
     elsif ($tag eq 'message') {
-        append_to_script($e, '$exception');
-        end_expr($e);
+        $e->append_to_script('$exception');
+        $e->end_expr();
 	return '';
     }
 }
